@@ -97,7 +97,7 @@
 
 <script>
   // ★ここに最新のURLを貼ってください
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzEjrmrNSImlMTBgB09inBI9PCH3I03dGH620--21Q_PetsGUTSvblLdlf7TbkFEPpiPQ/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwiba_GFYw4ku545SkRG6i1ErPTBEUDOK0VWgeoly503ivmWYFnKYUWB7vXcS7BIl9dxg/exec";
 
   async function apiRequest(payload) {
     const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
@@ -109,21 +109,32 @@
     document.getElementById(id).classList.add('active');
   }
 
-  window.onload = async () => {
+window.onload = async () => {
     try {
+      // GASからカレンダーデータだけを取得
       const res = await fetch(GAS_URL + "?action=getInitialData").then(r => r.json());
-      document.getElementById('calendar-loading').style.display = 'none';
+      
+      // 読み込み中メッセージを消す
+      const loadingEl = document.getElementById('calendar-loading');
+      if (loadingEl) loadingEl.style.display = 'none';
+      
       const c = document.getElementById('calendar');
       c.innerHTML = '';
+      
       res.calendar.forEach(i => {
         const item = document.createElement('div');
         const full = i.max > 0 && i.remaining <= 0;
         item.className = `day-item ${full ? 'full' : ''}`;
-        item.innerHTML = `<span class="date-num">${i.day}</span><div class="mato ${i.hasArrow ? 'kasumimato arrow' : 'hoshimato'}"></div>`;
+        item.innerHTML = `
+          <span class="date-num">${i.day}</span>
+          <div class="mato ${i.hasArrow ? 'kasumimato arrow' : 'hoshimato'}"></div>
+        `;
+        
         if(i.name) {
           const b = document.createElement('div');
           b.className = `slots-badge`;
           b.innerText = full ? '満射' : (i.max > 0 ? `残${i.remaining}` : 'OPEN');
+          
           if(!full) item.onclick = () => {
             document.getElementById('fTitle').innerText = `4月 ${i.day}日：${i.name}`;
             document.getElementById('fDate').value = i.date;
@@ -135,9 +146,9 @@
         c.appendChild(item);
       });
     } catch(e) { 
-      // ★お知らせは消さず、カレンダーエリアにだけエラーを出す
-      document.getElementById('calendar-loading').innerText = "カレンダーが読み込めませんでした 🎯";
-      console.error(e);
+      const loadingEl = document.getElementById('calendar-loading');
+      if (loadingEl) loadingEl.innerText = "カレンダーの取得に失敗しました 🎯";
+      console.error("Calendar Load Error:", e);
     }
   };
 
