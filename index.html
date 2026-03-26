@@ -146,16 +146,7 @@
         c.appendChild(item);
       });
       
-      // ★お知らせの表示を「カッコなし」でスッキリさせる
-      const nBox = document.getElementById('notices');
-      if (res.notices && res.notices.length > 0) {
-        nBox.innerHTML = res.notices.map(n => {
-          const titlePart = n.title ? `【${n.title}】 ` : "";
-          return `<div class="mb-2 last:mb-0">${titlePart}${n.content}</div>`;
-        }).join('');
-      } else {
-        nBox.innerText = "現在おしらせはありません🏹";
-      }
+   
     } catch(e) { document.getElementById('notices').innerText = "接続エラー 🎯"; }
   };
 
