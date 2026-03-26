@@ -8,27 +8,38 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
     :root { --main-green: #568670; --accent-pink: #FF87B2; --paper: #fdfaf0; --ink: #333; --yellow: #FFD93D; }
+    
     body { background-color: var(--main-green); font-family: 'M PLUS Rounded 1c', sans-serif; color: var(--ink); margin: 0; padding: 20px 0; }
     .container { max-width: 480px; margin: 0 auto; padding: 0 15px; }
     .paper { background: var(--paper); border-radius: 8px; padding: 25px; box-shadow: 10px 10px 0px rgba(0,0,0,0.2); border: 2px solid var(--ink); position: relative; }
+    
     .tape-header { background: var(--accent-pink); color: white; padding: 12px; text-align: center; border: 2px solid var(--ink); box-shadow: 4px 4px 0px var(--ink); margin: -10px -10px 25px -10px; transform: rotate(-1deg); }
     .tape-header h1 { font-size: 1.1rem; font-weight: 900; -webkit-text-stroke: 0.5px var(--ink); }
-    /* お知らせボックス：B列対応 */
-    .notice-box { background: #e8f0ec; border: 2px solid var(--main-green); border-radius: 10px; padding: 12px; margin-bottom: 25px; font-size: 11px; font-weight: 800; color: var(--main-green); line-height: 1.5; }
-    #calendar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-    .day-item { display: flex; flex-direction: column; align-items: center; position: relative; padding-bottom: 10px; }
-    .mato { width: 62px; height: 62px; border-radius: 50%; border: 2px solid var(--ink); background: white; cursor: pointer; position: relative; z-index: 2; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); }
+
+    /* ★お知らせ：画像通りの緑の二重線ボックス */
+    .notice-box { background: #fff; border: 4px double var(--main-green); border-radius: 12px; padding: 15px; margin-bottom: 30px; font-size: 11px; font-weight: 800; color: var(--main-green); text-align: center; line-height: 1.6; }
+
+    /* ★カレンダー：重なりを完全に防ぐレイアウト */
+    #calendar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 10px; }
+    .day-item { display: flex; flex-direction: column; align-items: center; position: relative; gap: 6px; }
+    
+    .date-num { font-size: 18px; font-weight: 900; color: #555; line-height: 1; }
+    
+    .mato { width: 62px; height: 62px; border-radius: 50%; border: 2.5px solid var(--ink); background: white; cursor: pointer; position: relative; z-index: 2; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); }
     .mato.kasumimato { background: radial-gradient(circle, #fff 8%, #333 9% 23%, #fff 24% 39%, #333 40% 55%, #fff 56% 71%, #333 72% 87%, #fff 88%); }
     .mato.hoshimato { background: radial-gradient(circle, #333 18%, #fff 19%); }
-    .arrow::after { content: ''; position: absolute; top: 40px; left: 40px; width: 45px; height: 3px; background: #8B4513; transform-origin: left center; transform: rotate(-45deg); border: 0.5px solid #000; z-index: 5; }
-    .arrow::before { content: ''; position: absolute; top: 5px; left: 72px; width: 15px; height: 18px; background: #fff; clip-path: polygon(100% 100%, 0% 100%, 25% 50%, 0% 0%, 100% 0%, 75% 50%); transform: translate(-50%, -50%) rotate(-45deg); border: 1px solid #000; z-index: 6; }
-    .date-num { font-size: 16px; font-weight: 900; color: #555; margin-top: 5px; }
-    .slots-badge { background: var(--yellow); border: 2px solid var(--ink); padding: 1px 5px; font-size: 10px; font-weight: 900; border-radius: 4px; margin-top: -10px; z-index: 10; transform: rotate(3deg); box-shadow: 2px 2px 0px var(--ink); }
+    
+    .arrow::after { content: ''; position: absolute; top: 38px; left: 38px; width: 45px; height: 3.5px; background: #8B4513; transform-origin: left center; transform: rotate(-45deg); border: 0.5px solid #000; z-index: 5; }
+    .arrow::before { content: ''; position: absolute; top: 3px; left: 70px; width: 14px; height: 18px; background: #fff; clip-path: polygon(100% 100%, 0% 100%, 25% 50%, 0% 0%, 100% 0%, 75% 50%); transform: translate(-50%, -50%) rotate(-45deg); border: 1px solid #000; z-index: 6; }
+
+    .slots-badge { background: var(--yellow); border: 2px solid var(--ink); padding: 1px 6px; font-size: 10px; font-weight: 900; border-radius: 4px; box-shadow: 2px 2px 0px var(--ink); transform: rotate(2deg); white-space: nowrap; }
     .full .mato { filter: grayscale(1); opacity: 0.2; cursor: not-allowed; }
-    input, select { width: 100%; border: 2px solid #ddd; padding: 14px; border-radius: 12px; margin-bottom: 12px; font-size: 1rem; background: #fff; outline: none; transition: 0.2s; }
-    input:focus { border-color: var(--main-green); }
+    .full .slots-badge { background: #bbb; color: #666; text-decoration: line-through; transform: rotate(0deg); }
+
+    input, select { width: 100%; border: 2px solid #ddd; padding: 14px; border-radius: 12px; margin-bottom: 12px; font-size: 1rem; background: #fff; outline: none; }
     .btn-main { background: var(--main-green); color: white; width: 100%; padding: 16px; border-radius: 15px; font-weight: 900; border: 2px solid var(--ink); box-shadow: 4px 4px 0px var(--ink); cursor: pointer; }
-    .btn-sub { background: white; color: var(--main-green); margin-top: 10px; border: 2px solid #ddd; font-size: 0.85rem; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; }
+    .btn-sub { background: white; color: var(--main-green); margin-top: 10px; border: 2px solid #ddd; font-size: 0.8rem; padding: 10px; border-radius: 10px; width: 100%; }
+
     .view { display: none; }
     .view.active { display: block; }
     .label-hint { font-size: 11px; font-weight: 800; color: #666; margin: 0 0 6px 4px; display: block; }
@@ -40,8 +51,11 @@
   <div class="paper">
     <div id="view-main" class="view active">
       <div class="tape-header"><h1>〜 鹿田弓道部新歓スケジュール 〜</h1></div>
+      
       <div id="notices" class="notice-box">読み込み中... 🏹</div>
+      
       <div id="calendar"></div>
+      
       <div class="mt-12 pt-6 border-t-4 border-double border-gray-200">
         <button onclick="switchView('view-status')" class="btn-main" style="background:var(--yellow); color:var(--ink)">自分の番号を確認する 🎯</button>
       </div>
@@ -51,30 +65,19 @@
       <h2 id="fTitle" class="font-black text-center text-xl mb-8 text-green-700"></h2>
       <form id="reservationForm">
         <input type="hidden" id="fDate"><input type="hidden" id="fEvent">
-        
-        <label class="label-hint">氏名（漢字フルネーム）</label>
+        <label class="label-hint">氏名（フルネーム）</label>
         <input type="text" id="name" placeholder="例：弓道 太郎" required>
-        
-        <label class="label-hint">ふりがな（ひらがな）</label>
+        <label class="label-hint">ふりがな</label>
         <input type="text" id="kana" placeholder="例：きゅうどう たろう" required>
-        
-        <label class="label-hint">学科</label>
+        <label class="label-hint">所属学科</label>
         <select id="major" required>
           <option value="" disabled selected>選択してください</option>
           <option>医</option><option>歯</option><option>看護</option><option>検査</option><option>放射</option>
         </select>
-        
         <label class="label-hint">学籍番号</label>
         <input type="text" id="studentId" placeholder="例：T26XXXX" required>
-        
-        <label class="label-hint">連絡先（Instagram ID または メールアドレス）</label>
-        <input type="text" id="contact" placeholder="@instagram_id または example@mail.com" required>
-        
-        <p class="text-[10px] text-gray-400 mb-6 leading-relaxed px-1">
-          ※予約後、部員が確認し「通し番号」を発行します。<br>
-          ※入力した情報は新歓の連絡以外には使用しません。
-        </p>
-        
+        <label class="label-hint">連絡先（インスタID等）</label>
+        <input type="text" id="contact" placeholder="@instagram_id または メールアドレス" required>
         <button type="submit" id="subBtn" class="btn-main">予約を確定する 🏹</button>
         <button type="button" onclick="switchView('view-main')" class="btn-sub">もどる</button>
       </form>
@@ -82,20 +85,8 @@
 
     <div id="view-status" class="view">
       <h2 class="font-black text-center text-lg mb-6 border-b-2 pb-2">番号の確認 🎯</h2>
-      
-      <label class="label-hint">登録した学科を選択</label>
-      <select id="checkMajor">
-        <option value="" disabled selected>学科を選択</option>
-        <option>医</option><option>歯</option><option>看護</option><option>検査</option><option>放射</option>
-      </select>
-      
-      <label class="label-hint">本人確認（以下のいずれかを入力）</label>
-      <input type="text" id="checkText" placeholder="氏名、ふりがな、または学籍番号">
-      
-      <p class="text-[10px] text-gray-500 mb-6 italic px-1">
-        ※学科を選んで、お名前か番号を入れると検索できます。
-      </p>
-      
+      <select id="checkMajor"><option value="" disabled selected>学科を選択</option><option>医</option><option>歯</option><option>看護</option><option>検査</option><option>放射</option></select>
+      <input type="text" id="checkText" placeholder="氏名、かな、または学籍番号">
       <button onclick="loadStatus()" id="checkBtn" class="btn-main">検索する</button>
       <div id="statusList" class="mt-8 space-y-3"></div>
       <button onclick="switchView('view-main')" class="btn-sub">もどる</button>
@@ -104,29 +95,24 @@
     <div id="view-success" class="view text-center py-10">
       <div class="text-7xl mb-6">🎯</div>
       <h2 class="font-black text-2xl mb-4 text-green-700">受付完了！</h2>
-      <p class="text-[11px] font-bold leading-relaxed text-gray-500 mb-10 px-4">
-        正常に送信されました。<br><br>
-        この後、部員が内容を確認し「通し番号」を割り振ります。<br>
-        しばらく経ってから「番号を確認する」を見てね！
-      </p>
-      <button onclick="location.reload()" class="btn-main">TOPにもどる</button>
+      <p class="text-[11px] font-bold leading-relaxed text-gray-500 mb-10 px-4">部員が確認し「通し番号」を振ります。しばらく経ってから「番号を確認する」を見てね！</p>
+      <button onclick="location.reload()" class="btn-main">TOPへもどる</button>
     </div>
   </div>
 </div>
 
 <script>
-  // ★重要：最新のGASウェブアプリURLを貼り付けてください
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxlzLkqNOUUGYWPEZvSwJ9MOEMX0Z7DVfpUb6ranLHBfzrX4i4L-HdsHObbKsEMDY-Vpg/exec";
-
-  function switchView(id) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
+  // ★重要：最新のGASウェブアプリURLに貼り替えてください！
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbylHpzPdzWmHOFsRYq_bI5ccs43eTp_Cy12EHYlC0rdAcm18OJGQHektk-qKc4O06uEIg/exec";
 
   async function apiRequest(payload) {
     const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
     return await res.json();
+  }
+
+  function switchView(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
   }
 
   window.onload = async () => {
@@ -138,7 +124,7 @@
         const item = document.createElement('div');
         const full = i.max > 0 && i.remaining <= 0;
         item.className = `day-item ${full ? 'full' : ''}`;
-        item.innerHTML = `<div class="mato ${i.hasArrow ? 'kasumimato arrow' : 'hoshimato'}"></div><span class="date-num">${i.day}</span>`;
+        item.innerHTML = `<span class="date-num">${i.day}</span><div class="mato ${i.hasArrow ? 'kasumimato arrow' : 'hoshimato'}"></div>`;
         if(i.name) {
           const b = document.createElement('div');
           b.className = `slots-badge`;
@@ -153,25 +139,24 @@
         }
         c.appendChild(item);
       });
-      // ★お知らせ表示：A列(title)とB列(content)を組み合わせて表示
+      
+      // ★お知らせの表示を「カッコなし」でスッキリさせる
       const nBox = document.getElementById('notices');
       if (res.notices && res.notices.length > 0) {
-        nBox.innerHTML = res.notices.map(n => `
-          <div class="mb-2">
-            <span class="text-pop-green">【${n.title}】</span>
-            <span>${n.content}</span>
-          </div>
-        `).join('');
+        nBox.innerHTML = res.notices.map(n => {
+          const titlePart = n.title ? `【${n.title}】 ` : "";
+          return `<div class="mb-2 last:mb-0">${titlePart}${n.content}</div>`;
+        }).join('');
       } else {
         nBox.innerText = "現在おしらせはありません🏹";
       }
     } catch(e) { document.getElementById('notices').innerText = "接続エラー 🎯"; }
   };
 
+  // 予約送信と状況確認のスクリプト（前回と同じですが、不具合防止のため同梱）
   document.getElementById('reservationForm').onsubmit = async (e) => {
     e.preventDefault();
-    const btn = document.getElementById('subBtn');
-    btn.innerText = "送信中...🎯"; btn.disabled = true;
+    const btn = document.getElementById('subBtn'); btn.innerText = "送信中..."; btn.disabled = true;
     try {
       await apiRequest({ action: "processForm", payload: {
         date: document.getElementById('fDate').value, eventName: document.getElementById('fEvent').value,
@@ -187,15 +172,14 @@
     const text = document.getElementById('checkText').value;
     const major = document.getElementById('checkMajor').value;
     if(!text || !major) return alert("学科と検索キーワードを入力してください！");
-    const btn = document.getElementById('checkBtn');
-    btn.innerText = "検索中..."; btn.disabled = true;
+    const btn = document.getElementById('checkBtn'); btn.innerText = "検索中..."; btn.disabled = true;
     try {
       const results = await apiRequest({ action: "checkStatus", payload: { searchText: text, major: major } });
       const list = document.getElementById('statusList');
       list.innerHTML = results.length ? results.map(r => `
         <div class="bg-white border-2 border-gray-100 p-4 rounded-xl flex justify-between items-center shadow-sm">
-          <div><div class="text-[10px] text-gray-400 font-bold uppercase">Date</div><div class="font-black text-sm">${r.date} 🏹</div></div>
-          <div class="text-right"><div class="text-[10px] text-gray-400 font-bold uppercase">Your No.</div><div class="font-black text-green-700 text-lg">No.${r.serial}</div></div>
+          <div class="font-bold text-sm">${r.date} 🏹</div>
+          <div class="font-black text-green-700 text-lg">No.${r.serial}</div>
         </div>
       `).join('') : "<p class='text-center text-red-500 font-bold text-xs py-4'>予約が見つかりません😢</p>";
     } catch(e) { alert("エラーが発生しました。"); }
