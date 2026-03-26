@@ -8,38 +8,25 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
     :root { --main-green: #568670; --accent-pink: #FF87B2; --paper: #fdfaf0; --ink: #333; --yellow: #FFD93D; }
-    
     body { background-color: var(--main-green); font-family: 'M PLUS Rounded 1c', sans-serif; color: var(--ink); margin: 0; padding: 20px 0; }
     .container { max-width: 480px; margin: 0 auto; padding: 0 15px; }
     .paper { background: var(--paper); border-radius: 8px; padding: 25px; box-shadow: 10px 10px 0px rgba(0,0,0,0.2); border: 2px solid var(--ink); position: relative; }
-    
     .tape-header { background: var(--accent-pink); color: white; padding: 12px; text-align: center; border: 2px solid var(--ink); box-shadow: 4px 4px 0px var(--ink); margin: -10px -10px 25px -10px; transform: rotate(-1deg); }
     .tape-header h1 { font-size: 1.1rem; font-weight: 900; -webkit-text-stroke: 0.5px var(--ink); }
-
-    /* ★お知らせ：画像通りの緑の二重線ボックス */
     .notice-box { background: #fff; border: 4px double var(--main-green); border-radius: 12px; padding: 15px; margin-bottom: 30px; font-size: 11px; font-weight: 800; color: var(--main-green); text-align: center; line-height: 1.6; }
-
-    /* ★カレンダー：重なりを完全に防ぐレイアウト */
-    #calendar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 10px; }
+    #calendar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 10px; min-height: 100px; }
     .day-item { display: flex; flex-direction: column; align-items: center; position: relative; gap: 6px; }
-    
     .date-num { font-size: 18px; font-weight: 900; color: #555; line-height: 1; }
-    
     .mato { width: 62px; height: 62px; border-radius: 50%; border: 2.5px solid var(--ink); background: white; cursor: pointer; position: relative; z-index: 2; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); }
     .mato.kasumimato { background: radial-gradient(circle, #fff 8%, #333 9% 23%, #fff 24% 39%, #333 40% 55%, #fff 56% 71%, #333 72% 87%, #fff 88%); }
     .mato.hoshimato { background: radial-gradient(circle, #333 18%, #fff 19%); }
-    
-    .arrow::after { content: ''; position: absolute; top: 38px; left: 38px; width: 45px; height: 3.5px; background: #8B4513; transform-origin: left center; transform: rotate(-45deg); border: 0.5px solid #000; z-index: 5; }
-    .arrow::before { content: ''; position: absolute; top: 3px; left: 70px; width: 14px; height: 18px; background: #fff; clip-path: polygon(100% 100%, 0% 100%, 25% 50%, 0% 0%, 100% 0%, 75% 50%); transform: translate(-50%, -50%) rotate(-45deg); border: 1px solid #000; z-index: 6; }
-
+    .arrow::after { content: ''; position: absolute; top: 40px; left: 40px; width: 45px; height: 3.5px; background: #8B4513; transform-origin: left center; transform: rotate(-45deg); border: 0.5px solid #000; z-index: 5; }
+    .arrow::before { content: ''; position: absolute; top: 5px; left: 72px; width: 14px; height: 18px; background: #fff; clip-path: polygon(100% 100%, 0% 100%, 25% 50%, 0% 0%, 100% 0%, 75% 50%); transform: translate(-50%, -50%) rotate(-45deg); border: 1px solid #000; z-index: 6; }
     .slots-badge { background: var(--yellow); border: 2px solid var(--ink); padding: 1px 6px; font-size: 10px; font-weight: 900; border-radius: 4px; box-shadow: 2px 2px 0px var(--ink); transform: rotate(2deg); white-space: nowrap; }
     .full .mato { filter: grayscale(1); opacity: 0.2; cursor: not-allowed; }
-    .full .slots-badge { background: #bbb; color: #666; text-decoration: line-through; transform: rotate(0deg); }
-
-    input, select { width: 100%; border: 2px solid #ddd; padding: 14px; border-radius: 12px; margin-bottom: 12px; font-size: 1rem; background: #fff; outline: none; }
+    input, select { width: 100%; border: 2px solid #ddd; padding: 14px; border-radius: 12px; margin-bottom: 12px; font-size: 1rem; background: #fff; }
     .btn-main { background: var(--main-green); color: white; width: 100%; padding: 16px; border-radius: 15px; font-weight: 900; border: 2px solid var(--ink); box-shadow: 4px 4px 0px var(--ink); cursor: pointer; }
     .btn-sub { background: white; color: var(--main-green); margin-top: 10px; border: 2px solid #ddd; font-size: 0.8rem; padding: 10px; border-radius: 10px; width: 100%; }
-
     .view { display: none; }
     .view.active { display: block; }
     .label-hint { font-size: 11px; font-weight: 800; color: #666; margin: 0 0 6px 4px; display: block; }
@@ -56,10 +43,11 @@
         <strong>【持ち物】</strong>動きやすい服装（ジップやボタンのないもの）、靴下、飲み物<br>
         <strong>【注意】</strong>道場内は土足厳禁。必ず靴下を着用のこと。<br>
         <strong>【集合】</strong>新歓開始10分前までに鹿田キャンパス食堂（記念会館）前へお越しください。<br>
-        <strong>【キャンセル】</strong>やむを得ず新歓に参加できなくなった場合は、必ずDMにてキャンセルをしてください。
-        <br>その他質問等があれば鹿田弓道部(<a href="https://x.com/skt_kyd_shinkan">X</a>/<a href="https://www.instagram.com/okayama_uni_shikatakyudo">Instagram</a>)までDMをお願いします
+        <strong>【キャンセル】</strong>やむを得ず参加できなくなった場合は、必ずDMにて連絡をしてください。
+        <br><br>質問等は鹿田弓道部(<a href="https://x.com/skt_kyd_shinkan" style="text-decoration:underline">X</a>/<a href="https://www.instagram.com/okayama_uni_shikatakyudo" style="text-decoration:underline">Instagram</a>)まで！
       </div>
       
+      <div id="calendar-loading" class="text-center text-xs py-10">カレンダーを読み込み中... 🏹</div>
       <div id="calendar"></div>
       
       <div class="mt-12 pt-6 border-t-4 border-double border-gray-200">
@@ -77,13 +65,13 @@
         <input type="text" id="kana" placeholder="例：きゅうどう たろう" required>
         <label class="label-hint">所属学科</label>
         <select id="major" required>
-          <option value="" disabled selected>選択してください</option>
+          <option value="" disabled selected>学科を選択</option>
           <option>医</option><option>歯</option><option>看護</option><option>検査</option><option>放射</option>
         </select>
         <label class="label-hint">学籍番号</label>
         <input type="text" id="studentId" placeholder="例：T26XXXX" required>
         <label class="label-hint">連絡先（インスタID等）</label>
-        <input type="text" id="contact" placeholder="@instagram_id または メールアドレス" required>
+        <input type="text" id="contact" placeholder="@instagram_id または メール" required>
         <button type="submit" id="subBtn" class="btn-main">予約を確定する 🏹</button>
         <button type="button" onclick="switchView('view-main')" class="btn-sub">もどる</button>
       </form>
@@ -101,15 +89,15 @@
     <div id="view-success" class="view text-center py-10">
       <div class="text-7xl mb-6">🎯</div>
       <h2 class="font-black text-2xl mb-4 text-green-700">受付完了！</h2>
-      <p class="text-[11px] font-bold leading-relaxed text-gray-500 mb-10 px-4">部員が確認し「通し番号」を振ります。しばらく経ってから「番号を確認する」を見てね！</p>
+      <p class="text-[11px] font-bold text-gray-500 mb-10 px-4">部員が確認し「通し番号」を振ります。しばらく経ってから「番号を確認する」を見てね！</p>
       <button onclick="location.reload()" class="btn-main">TOPへもどる</button>
     </div>
   </div>
 </div>
 
 <script>
-  // ★重要：最新のGASウェブアプリURLに貼り替えてください！
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbylHpzPdzWmHOFsRYq_bI5ccs43eTp_Cy12EHYlC0rdAcm18OJGQHektk-qKc4O06uEIg/exec";
+  // ★ここに最新のURLを貼ってください
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzEjrmrNSImlMTBgB09inBI9PCH3I03dGH620--21Q_PetsGUTSvblLdlf7TbkFEPpiPQ/exec";
 
   async function apiRequest(payload) {
     const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
@@ -124,6 +112,7 @@
   window.onload = async () => {
     try {
       const res = await fetch(GAS_URL + "?action=getInitialData").then(r => r.json());
+      document.getElementById('calendar-loading').style.display = 'none';
       const c = document.getElementById('calendar');
       c.innerHTML = '';
       res.calendar.forEach(i => {
@@ -145,12 +134,13 @@
         }
         c.appendChild(item);
       });
-      
-   
-    } catch(e) { document.getElementById('notices').innerText = "接続エラー 🎯"; }
+    } catch(e) { 
+      // ★お知らせは消さず、カレンダーエリアにだけエラーを出す
+      document.getElementById('calendar-loading').innerText = "カレンダーが読み込めませんでした 🎯";
+      console.error(e);
+    }
   };
 
-  // 予約送信と状況確認のスクリプト（前回と同じですが、不具合防止のため同梱）
   document.getElementById('reservationForm').onsubmit = async (e) => {
     e.preventDefault();
     const btn = document.getElementById('subBtn'); btn.innerText = "送信中..."; btn.disabled = true;
@@ -162,13 +152,13 @@
         contact: document.getElementById('contact').value
       }});
       switchView('view-success');
-    } catch(err) { alert("エラーが発生しました。"); btn.innerText = "予約を確定する 🏹"; btn.disabled = false; }
+    } catch(err) { alert("送信エラーが発生しました。"); btn.innerText = "予約を確定する 🏹"; btn.disabled = false; }
   };
 
   async function loadStatus() {
     const text = document.getElementById('checkText').value;
     const major = document.getElementById('checkMajor').value;
-    if(!text || !major) return alert("学科と検索キーワードを入力してください！");
+    if(!text || !major) return alert("学科とキーワードを入れてね！");
     const btn = document.getElementById('checkBtn'); btn.innerText = "検索中..."; btn.disabled = true;
     try {
       const results = await apiRequest({ action: "checkStatus", payload: { searchText: text, major: major } });
@@ -178,11 +168,10 @@
           <div class="font-bold text-sm">${r.date} 🏹</div>
           <div class="font-black text-green-700 text-lg">No.${r.serial}</div>
         </div>
-      `).join('') : "<p class='text-center text-red-500 font-bold text-xs py-4'>予約が見つかりません😢</p>";
-    } catch(e) { alert("エラーが発生しました。"); }
+      `).join('') : "<p class='text-center text-red-500 font-bold text-xs py-4'>見つかりませんでした😢</p>";
+    } catch(e) { alert("検索エラーが発生しました。"); }
     btn.innerText = "検索する"; btn.disabled = false;
   }
 </script>
-
 </body>
 </html>
